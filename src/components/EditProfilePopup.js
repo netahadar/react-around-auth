@@ -7,11 +7,15 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   const [description, setDescription] = React.useState("");
 
   function handleNameChange(e) {
-    setName(e.target.value);
+    // Disallow special characters to prevent XSS
+    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
+    setName(filteredValue);
   }
 
   function handleDescriptionChange(e) {
-    setDescription(e.target.value);
+    // Disallow special characters to prevent XSS
+    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
+    setDescription(filteredValue);
   }
 
   // Subscription to the context

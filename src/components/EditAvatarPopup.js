@@ -6,9 +6,10 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    // Disallow special characters to prevent XSS
+    let filteredValue = avatarLink.current.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
     onUpdateAvatar({
-      avatar: avatarLink.current.value,
+      avatar: filteredValue,
     });
   }
 

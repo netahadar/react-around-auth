@@ -10,8 +10,10 @@ export default function Login({ onLogin, onClose, isOpen }) {
   });
 
   function handleChange(e) {
-    const { name, value} = e.target
-    setValues( {...values, [name]: value} );
+    const { name, value } = e.target;
+    // Disallow special characters to prevent XSS
+    let filteredValue = value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
+    setValues( {...values, [name]: filteredValue} );
   }
 
   //submit handler:
