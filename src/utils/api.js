@@ -10,7 +10,6 @@
     fetchCall(url, headers) {
       return fetch(url, headers)
         .then((res) => {
-          console.log(res)
           if (res.ok) {
             return res.json();
           }
