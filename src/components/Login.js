@@ -51,7 +51,7 @@ export default function Login({ onLogin, onClose, isOpen }) {
           ></input>
           <button className="signing__form-submit-button" type="submit">Log In</button>
         </form>
-        <Link className="signing__link" href="/signup">Not a member yet? Sign up here!</Link>
+        <Link to="/signup" className="signing__link">Not a member yet? Sign up here!</Link>
       </div>
       <InfoTooltip
                 isOpen={isOpen}

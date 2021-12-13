@@ -52,7 +52,7 @@ export default function Register({ onRegister, onClose, isOpen, isSuccess }) {
           ></input>
           <button className="signing__form-submit-button" type="submit">Sign Up</button>
         </form>
-        <Link className="signing__link" href="/signin">Already a member? Log in here!</Link>
+        <Link to="/signin" className="signing__link" >Already a member? Log in here!</Link>
       </div>
       <InfoTooltip
                 isOpen={isOpen}

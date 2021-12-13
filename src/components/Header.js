@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logoPath from '../blocks/images/logo.svg';
 
 export default function Header({link, text, loggedIn, email = ''}) {
@@ -11,7 +12,7 @@ export default function Header({link, text, loggedIn, email = ''}) {
         />
         <div className="header__container">
           {loggedIn && <p className="header__email">{email}</p>}
-          <a className="header__link" href={link}>{text}</a>
+          <Link to={link} className="header__link">{text}</Link>
         </div>
       </header>
   );
