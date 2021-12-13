@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import InfoTooltip from "./InfoTooltip";
 import successPath from "../blocks/images/success.svg";
 import failPath from "../blocks/images/fail.svg";
@@ -51,7 +52,7 @@ export default function Register({ onRegister, onClose, isOpen, isSuccess }) {
           ></input>
           <button className="signing__form-submit-button" type="submit">Sign Up</button>
         </form>
-        <a className="signing__link" href="/signin">Already a member? Log in here!</a>
+        <Link className="signing__link" href="/signin">Already a member? Log in here!</Link>
       </div>
       <InfoTooltip
                 isOpen={isOpen}

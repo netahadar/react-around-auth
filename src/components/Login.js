@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import InfoTooltip from "./InfoTooltip";
 import failPath from "../blocks/images/fail.svg";
 
@@ -50,7 +51,7 @@ export default function Login({ onLogin, onClose, isOpen }) {
           ></input>
           <button className="signing__form-submit-button" type="submit">Log In</button>
         </form>
-        <a className="signing__link" href="/signup">Not a member yet? Sign up here!</a>
+        <Link className="signing__link" href="/signup">Not a member yet? Sign up here!</Link>
       </div>
       <InfoTooltip
                 isOpen={isOpen}
