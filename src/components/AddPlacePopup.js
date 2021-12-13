@@ -5,15 +5,20 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlaceSubmit}) {
   const [place, setPlace] = React.useState("");
   const [link, setLink] = React.useState("");
 
+  React.useEffect(() => {
+    setPlace("");
+    setLink("");
+  }, [isOpen])
+
   function handlePlaceChange(e) {
     // Disallow special characters to prevent XSS
-    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ")
+    const filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ")
     setPlace(filteredValue);
   }
 
   function handleLinkChange(e) {
     // Disallow special characters to prevent XSS
-    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ")
+    const filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ")
     setLink(filteredValue);
   }
 

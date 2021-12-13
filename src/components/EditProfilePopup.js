@@ -8,13 +8,13 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
 
   function handleNameChange(e) {
     // Disallow special characters to prevent XSS
-    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
+    const filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
     setName(filteredValue);
   }
 
   function handleDescriptionChange(e) {
     // Disallow special characters to prevent XSS
-    let filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
+    const filteredValue = e.target.value.replace(/[*|\"<>[\]{}`;&$]+/, " ");
     setDescription(filteredValue);
   }
 
@@ -26,7 +26,7 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   //submit handler:
   function handleSubmit(e) {

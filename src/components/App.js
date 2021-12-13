@@ -17,7 +17,6 @@ import * as auth from "../utils/auth";
 import { useHistory } from "react-router";
 
 function App() {
-  
   const history = useHistory();
 
   //State for edit avatar popup:
@@ -96,20 +95,23 @@ function App() {
   function checkToken() {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      auth.getContent(jwt).then((res) => {
-        if (res) {
-          setLoggedIn(true);
-          setEmail(res.data.email);
-          history.push("/");
-        }
-      }).catch(console.log);
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.data.email);
+            history.push("/");
+          }
+        })
+        .catch(console.log);
     }
   }
 
   // Keep returning users logged in
   React.useEffect(() => {
     checkToken();
-  });
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -140,6 +142,18 @@ function App() {
     setIsInfoPopupOpen(false);
     setSelectedCard({ name: "", link: "" });
   }
+
+  React.useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", closeByEscape);
+
+    return () => document.removeEventListener("keydown", closeByEscape);
+  }, []);
 
   function handleUpdateUser(newData) {
     api
@@ -209,37 +223,40 @@ function App() {
   function handleLogin(values) {
     auth
       .authorize(values)
-      .then(checkToken())
+      .then(checkToken)
       .catch((err) => {
         console.log(err);
         setIsInfoPopupOpen(true);
       });
   }
 
+  function handleLogOut(){
+    setLoggedIn(false);
+    localStorage.removeItem('jwt')
+  }
+
   function handleRegister(values) {
-    console.log(values);
     auth
       .register(values)
       .then(() => {
         history.push("/.signin");
         setInfoTitle(true);
-        setIsInfoPopupOpen(true);
       })
       .catch((err) => {
         console.log(err);
-        setIsInfoPopupOpen(true);
         setInfoTitle(false);
+      })
+      .finally(() => {
+        setIsInfoPopupOpen(true);
       });
   }
 
   return (
-    <>
       <CurrentUserContext.Provider value={currentUser}>
         <div className="content">
-          {/* TODO: add login / sign up/ log out to header */}
           <Switch>
             <Route path="/signup">
-              <Header link="/signin" text="Log In" loggedIn={loggedIn}/>
+              <Header link="/signin" text="Log In" loggedIn={loggedIn} />
               <Register
                 onRegister={handleRegister}
                 onClose={closeAllPopups}
@@ -248,7 +265,7 @@ function App() {
               />
             </Route>
             <Route path="/signin">
-              <Header link="/signup" text="Sign Up" loggedIn={loggedIn}/>
+              <Header link="/signup" text="Sign Up" loggedIn={loggedIn} />
               <Login
                 onLogin={handleLogin}
                 onClose={closeAllPopups}
@@ -256,7 +273,13 @@ function App() {
               />
             </Route>
             <ProtectedRoute path="/" loggedIn={loggedIn}>
-              <Header link="/signin" text="Log Out" loggedIn={loggedIn} email={email}/>
+              <Header
+                link="/signin"
+                text="Log Out"
+                loggedIn={loggedIn}
+                email={email}
+                onLogOut={handleLogOut}
+              />
               <Main
                 onEditProfileClick={handleEditProfileClick}
                 onAddPlaceClick={handleAddPlaceClick}
@@ -295,7 +318,6 @@ function App() {
           </Switch>
         </div>
       </CurrentUserContext.Provider>
-    </>
   );
 }
 

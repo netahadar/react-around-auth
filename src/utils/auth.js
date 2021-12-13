@@ -10,11 +10,14 @@ export function register({ email, password }) {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((data) => {
-      if (data.error) {
+  .then((data) => {
+    if (data) {
+      return data;
+            }
+      else{
         throw new Error("User with this email address already exists");
       }
-    });
+  });
 }
 
 export function authorize({ email, password }) {
@@ -26,8 +29,8 @@ export function authorize({ email, password }) {
     body: JSON.stringify({ email, password }),
   })
     .then((data) => {
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
+      if (data) {
+        return localStorage.setItem("jwt", data.token);
       } else {
         throw new Error("the user with the specified email not found");
       }
