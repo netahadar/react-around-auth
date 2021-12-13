@@ -1,30 +1,33 @@
-const fetchCall = (url, headers) => {
-    return fetch(url, headers)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        Promise.reject(`ERROR: ${res.statusText}`);
-      })
-  };
+
   
   class Api {
     constructor(baseUrl, headers) {
       this._baseUrl = baseUrl;
       this._headers = headers;
+      this.fetchCall = this.fetchCall.bind(this);
     }
+
+    fetchCall(url, headers) {
+      return fetch(url, headers)
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+    
+          Promise.reject(`ERROR: ${res.statusText}`);
+        })
+    };
   
     //Get user info from server:
     getUserInfo() {
-      return fetchCall(`${this._baseUrl}/users/me`, {
+      return this.fetchCall(`${this._baseUrl}/users/me`, {
         headers: this._headers,
       });
     }
   
     //Update user avatar:
     setUserAvatar(data) {
-      return fetchCall(`${this._baseUrl}/users/me/avatar`, {
+      return this.fetchCall(`${this._baseUrl}/users/me/avatar`, {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
@@ -36,14 +39,14 @@ const fetchCall = (url, headers) => {
 
     //Get initial cards from server:
     getInitialCards() {
-      return fetchCall(`${this._baseUrl}/cards`, {
+      return this.fetchCall(`${this._baseUrl}/cards`, {
         headers: this._headers,
       });
     }
   
     //Send new profile data to server:
     setUserInfo(obj) {
-      return fetchCall(`${this._baseUrl}/users/me`, {
+      return this.fetchCall(`${this._baseUrl}/users/me`, {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
@@ -56,7 +59,7 @@ const fetchCall = (url, headers) => {
   
     //Add new card:
     createNewCard(obj) {
-      return fetchCall(`${this._baseUrl}/cards`, {
+      return this.fetchCall(`${this._baseUrl}/cards`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify({
@@ -69,7 +72,7 @@ const fetchCall = (url, headers) => {
   
     //Delete card:
     deleteCard(cardId) {
-      return fetchCall(`${this._baseUrl}/cards/${cardId}`, {
+      return this.fetchCall(`${this._baseUrl}/cards/${cardId}`, {
         method: "DELETE",
         headers: this._headers,
       });
@@ -77,7 +80,7 @@ const fetchCall = (url, headers) => {
   
     //Add like to card:
     _addLike(cardId) {
-      return fetchCall(`${this._baseUrl}/cards/likes/${cardId}`, {
+      return this.fetchCall(`${this._baseUrl}/cards/likes/${cardId}`, {
         method: "PUT",
         headers: this._headers,
       });
@@ -85,7 +88,7 @@ const fetchCall = (url, headers) => {
   
     //Remove like from catd:
     _dislike(cardId) {
-      return fetchCall(`${this._baseUrl}/cards/likes/${cardId}`, {
+      return this.fetchCall(`${this._baseUrl}/cards/likes/${cardId}`, {
         method: "DELETE",
         headers: this._headers,
       });
